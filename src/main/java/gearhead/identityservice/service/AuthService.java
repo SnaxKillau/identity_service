@@ -1,6 +1,7 @@
 package gearhead.identityservice.service;
 
 
+import gearhead.identityservice.dto.UserResponse;
 import gearhead.identityservice.entity.Role;
 import gearhead.identityservice.entity.UserCredential;
 import gearhead.identityservice.repository.UserCredentialRepository;
@@ -54,6 +55,17 @@ public class AuthService {
         byte[] decodedBytes = Base64.getDecoder().decode(encodedUserId);
         String decodedString = new String(decodedBytes);
         return Integer.parseInt(decodedString);
+    }
+
+    public UserResponse getUser(Integer id){
+        Optional<UserCredential> userCredential = repository.findById(id);
+        if(userCredential.isPresent()){
+            UserResponse userResponse = new UserResponse();
+            userResponse.setEmail(userCredential.get().getEmail());
+            userResponse.setName(userCredential.get().getName());
+            return userResponse;
+        }
+        return null;
     }
 
 }

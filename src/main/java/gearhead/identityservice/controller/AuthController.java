@@ -3,6 +3,7 @@ package gearhead.identityservice.controller;
 
 
 import gearhead.identityservice.dto.AuthRequest;
+import gearhead.identityservice.dto.UserResponse;
 import gearhead.identityservice.entity.UserCredential;
 import gearhead.identityservice.repository.UserCredentialRepository;
 import gearhead.identityservice.service.AuthService;
@@ -62,8 +63,10 @@ public class AuthController {
         return service.encodeUserId(id);
     }
     @GetMapping("/userDetail")
-    public Integer getUserDetail(@RequestParam("id") String id){
+    public ResponseEntity<UserResponse> getUserDetail(@RequestParam("id") String id){
         Integer decodeUserId = service.decodeUserId(id);
-        return decodeUserId;
+        UserResponse userResponse = service.getUser(decodeUserId);
+       return ResponseEntity.ok(userResponse);
     }
+
 }
